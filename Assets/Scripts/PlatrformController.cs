@@ -1,4 +1,4 @@
-﻿using System;
+﻿//using System;
 using UnityEngine;
 
 namespace TennisGame.Assets.Scripts
@@ -9,6 +9,7 @@ namespace TennisGame.Assets.Scripts
         public float xMin = -400f;
         public float xMax = 400f;
         private Rigidbody2D _rigidbody;
+        private float _horz = 0f;
 
         private void Awake()
         {
@@ -17,7 +18,9 @@ namespace TennisGame.Assets.Scripts
 
         private void FixedUpdate()
         {
-            var movement = new Vector2(Input.GetAxis("Horizontal"), 0.0f);
+            //_horz = Input.GetAxis("Horizontal");
+            _horz = Random.Range(-1f, 1f);
+            var movement = new Vector2(_horz, 0.0f);
             _rigidbody.velocity = movement * speed;
             _rigidbody.position = new Vector2(Mathf.Clamp(_rigidbody.position.x, xMin, xMax), 0.0f);
             
@@ -25,6 +28,7 @@ namespace TennisGame.Assets.Scripts
 
         private void Update()
         {
+            
         }
     }
 }
