@@ -4,6 +4,8 @@ namespace TennisGame.Assets.Scripts
 {
     public class AdversaryController: MonoBehaviour, IForceProvider
     {
+        public SceneController sceneController;
+        public BallController ballController;
         public float speed = 500f;
         public float xMin = -100f;
         public float xMax = 100f;
@@ -12,7 +14,6 @@ namespace TennisGame.Assets.Scripts
 
         private Rigidbody2D _rigidbody;
         private BoxCollider2D _collider;
-        private ISceneController _sceneController;
 
         public float YForce
         {
@@ -38,7 +39,6 @@ namespace TennisGame.Assets.Scripts
         {
             _rigidbody = GetComponent<Rigidbody2D>();
             _collider = GetComponent<BoxCollider2D>();
-            _sceneController = GetComponent<SceneController>();
         }
 
         private void FixedUpdate()

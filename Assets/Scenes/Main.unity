@@ -300,6 +300,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06be6cd49edf766478e1fe369bf742b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sceneController: {fileID: 1642251371}
+  ballController: {fileID: 898875378}
   speed: 500
   xMin: -100
   xMax: 100

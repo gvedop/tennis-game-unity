@@ -2,7 +2,7 @@
 
 namespace TennisGame.Assets.Scripts
 {
-    public class SceneController : MonoBehaviour, ISceneController
+    public class SceneController : MonoBehaviour
     {
         public PlayerController player;
         public AdversaryController adversary;
