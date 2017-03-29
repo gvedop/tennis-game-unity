@@ -12,6 +12,7 @@ namespace TennisGame.Assets.Scripts
 
         private Rigidbody2D _rigidbody;
         private BoxCollider2D _collider;
+        private ISceneController _sceneController;
 
         public float YForce
         {
@@ -37,6 +38,7 @@ namespace TennisGame.Assets.Scripts
         {
             _rigidbody = GetComponent<Rigidbody2D>();
             _collider = GetComponent<BoxCollider2D>();
+            _sceneController = GetComponent<SceneController>();
         }
 
         private void FixedUpdate()

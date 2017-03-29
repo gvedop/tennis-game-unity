@@ -2,7 +2,7 @@
 
 namespace TennisGame.Assets.Scripts
 {
-    public class SceneController : MonoBehaviour
+    public class SceneController : MonoBehaviour, ISceneController
     {
         public PlayerController player;
         public AdversaryController adversary;
@@ -11,7 +11,11 @@ namespace TennisGame.Assets.Scripts
         public WallController topWall;
         public WallController rightWall;
         public WallController bottomWall;
-        public RectTransform field;
+        public RectTransform rect;
+
+        private Field field;
+        private float _widthScale;
+        private float _heightScale;
 
         private void Awake()
         {
@@ -24,60 +28,42 @@ namespace TennisGame.Assets.Scripts
 
         private void Init()
         {
-            var cornersPosition = new Vector3[4];
-            field.GetWorldCorners(cornersPosition);
-            for (int i = 0; i < cornersPosition.Length; i++)
-                cornersPosition[i] = Camera.main.ScreenToWorldPoint(cornersPosition[i]);
+            field = new Field(rect, Camera.main);
 
-            var width = Mathf.Abs(cornersPosition[0].x - cornersPosition[3].x);
-            var height = Mathf.Abs(cornersPosition[0].y - cornersPosition[1].y);
-            var widthScale = width / Screen.width;
-            var heightScale = height / Screen.height;
-
-            player.transform.localScale = player.transform.localScale * widthScale;
-            adversary.transform.localScale = adversary.transform.localScale * widthScale;
-            ball.transform.localScale = ball.transform.localScale * widthScale;
+            player.transform.localScale = player.transform.localScale * field.WidthScale;
+            adversary.transform.localScale = adversary.transform.localScale * field.WidthScale;
+            ball.transform.localScale = ball.transform.localScale * field.WidthScale;
 
             var playerMiddleSize = player.GetComponent<SpriteRenderer>().bounds.size / 2f;
-            var playerPosition = new Vector3((cornersPosition[0].x + cornersPosition[3].x) / 2f, cornersPosition[0].y + playerMiddleSize.y, 0f);
-            player.transform.localPosition = playerPosition;
-            player.xMin = cornersPosition[0].x;
-            player.xMax = cornersPosition[3].x;
-            player.yPosition = playerPosition.y;
-            player.speed = player.speed * heightScale;
+            player.transform.localPosition = field.BottomCenter.WithAddY(playerMiddleSize.y);
+            player.xMin = field.BottomLeftCorner.x;
+            player.xMax = field.BottomRightCorner.x;
+            player.yPosition = field.BottomCenter.y;
+            player.speed = player.speed * field.HeightScale;
 
             var adversaryMiddleSize = adversary.GetComponent<SpriteRenderer>().bounds.size / 2f;
-            var adversaryPosition = new Vector3((cornersPosition[1].x + cornersPosition[2].x) / 2f, cornersPosition[1].y - adversaryMiddleSize.y, 0f);
-            adversary.transform.localPosition = adversaryPosition;
-            adversary.xMin = cornersPosition[1].x;
-            adversary.xMax = cornersPosition[2].x;
-            adversary.yPosition = adversaryPosition.y;
-            adversary.speed = adversary.speed * heightScale;
+            adversary.transform.localPosition = field.TopCenter.WithSubY(adversaryMiddleSize.y);
+            adversary.xMin = field.TopLeftCorner.x;
+            adversary.xMax = field.TopRightCorner.x;
+            adversary.yPosition = field.TopCenter.y;
+            adversary.speed = adversary.speed * field.HeightScale;
 
-            ball.transform.localPosition = new Vector3((cornersPosition[0].x + cornersPosition[3].x) / 2f, (cornersPosition[0].y + cornersPosition[1].y) / 2, 0f);
-            ball.scale = widthScale;
+            ball.transform.localPosition = field.Center;
+            ball.scale = field.WidthScale;
 
             var wallSize = 50f;
-            bottomWall.GetComponent<BoxCollider2D>().size = new Vector2(width, wallSize);
-            bottomWall.transform.localPosition = new Vector3((cornersPosition[0].x + cornersPosition[3].x) / 2f, cornersPosition[0].y - wallSize / 2f, 0f);
-            topWall.GetComponent<BoxCollider2D>().size = new Vector2(width, wallSize);
-            topWall.transform.localPosition = new Vector3((cornersPosition[0].x + cornersPosition[3].x) / 2f, cornersPosition[1].y + wallSize / 2f, 0f);
-            leftWall.GetComponent<BoxCollider2D>().size = new Vector2(wallSize, height);
-            leftWall.transform.localPosition = new Vector3(cornersPosition[0].x - wallSize / 2f, (cornersPosition[0].y + cornersPosition[1].y) / 2, 0f);
-            rightWall.GetComponent<BoxCollider2D>().size = new Vector2(wallSize, height);
-            rightWall.transform.localPosition = new Vector3(cornersPosition[3].x + wallSize / 2f, (cornersPosition[0].y + cornersPosition[1].y) / 2, 0f);
+            var midWallSize = wallSize / 2f;
+            bottomWall.Init(new Vector2(field.Width, wallSize), field.BottomCenter.WithSubY(midWallSize));
+            topWall.Init(new Vector2(field.Width, wallSize), field.TopCenter.WithAddY(midWallSize));
+            leftWall.Init(new Vector2(wallSize, field.Height), field.LeftCenter.WithSubX(midWallSize));
+            rightWall.Init(new Vector2(wallSize, field.Height), field.RightCenter.WithAddX(midWallSize));
 
             var playerCollider = player.GetComponent<Collider2D>();
-            Physics2D.IgnoreCollision(leftWall.GetComponent<Collider2D>(), playerCollider);
-            Physics2D.IgnoreCollision(topWall.GetComponent<Collider2D>(), playerCollider);
-            Physics2D.IgnoreCollision(rightWall.GetComponent<Collider2D>(), playerCollider);
-            Physics2D.IgnoreCollision(bottomWall.GetComponent<Collider2D>(), playerCollider);
-
             var adversaryCollider = adversary.GetComponent<Collider2D>();
-            Physics2D.IgnoreCollision(leftWall.GetComponent<Collider2D>(), adversaryCollider);
-            Physics2D.IgnoreCollision(topWall.GetComponent<Collider2D>(), adversaryCollider);
-            Physics2D.IgnoreCollision(rightWall.GetComponent<Collider2D>(), adversaryCollider);
-            Physics2D.IgnoreCollision(bottomWall.GetComponent<Collider2D>(), adversaryCollider);
+            bottomWall.IgnoreCollisions(playerCollider, adversaryCollider);
+            topWall.IgnoreCollisions(playerCollider, adversaryCollider);
+            leftWall.IgnoreCollisions(playerCollider, adversaryCollider);
+            rightWall.IgnoreCollisions(playerCollider, adversaryCollider);
         }
     }
 }

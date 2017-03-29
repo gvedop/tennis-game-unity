@@ -8,10 +8,12 @@ namespace TennisGame.Assets.Scripts
         public float scale = 1f;
 
         private Rigidbody2D _rigidbody;
+        private ISceneController _sceneController;
 
         private void Awake()
         {
             _rigidbody = GetComponent<Rigidbody2D>();
+            _sceneController = GetComponent<SceneController>();
         }
 
         private void Start()
