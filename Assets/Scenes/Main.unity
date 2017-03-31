@@ -303,7 +303,7 @@ MonoBehaviour:
   sceneController: {fileID: 1642251371}
   playerController: {fileID: 118961022}
   ballController: {fileID: 898875378}
-  speed: 500
+  speed: 600
   xMin: -100
   xMax: 100
   yPosition: 0
@@ -457,7 +457,7 @@ GameObject:
   - component: {fileID: 898875375}
   - component: {fileID: 898875374}
   - component: {fileID: 898875378}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Ball
   m_TagString: Untagged
   m_Icon: {fileID: 0}

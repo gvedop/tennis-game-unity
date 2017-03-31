@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace TennisGame.Assets.Scripts
 {
@@ -8,6 +9,16 @@ namespace TennisGame.Assets.Scripts
         public float scale = 1f;
 
         private Rigidbody2D _rigidbody;
+
+        public Vector2 Position
+        {
+            get { return _rigidbody.position; }
+        }
+
+        public Vector2 Velocity
+        {
+            get { return _rigidbody.velocity; }
+        }
 
         private void Awake()
         {
