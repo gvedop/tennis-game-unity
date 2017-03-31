@@ -7,6 +7,7 @@ namespace TennisGame.Assets.Scripts
         public SceneController sceneController;
         public PlayerController playerController;
         public BallController ballController;
+        public AdversaryAIType AIType = AdversaryAIType.LOW;
         public float speed = 500f;
         public float xMin = -100f;
         public float xMax = 100f;
@@ -16,12 +17,11 @@ namespace TennisGame.Assets.Scripts
         private Rigidbody2D _rigidbody;
         private BoxCollider2D _collider;
         private LayerMask _layerMask;
+        private AdversaryAIForce _aiForce;
         private float _currentAdditionalForce = 0f;
         private float _horizontal = 0f;
         private float _selfStep = 0f;
-        private float _selfStepTime = 1f;
         private float _currentSelfStepTime = 0f;
-        private float _moveStep = 0.15f;
         
         public float YForce
         {
@@ -48,6 +48,7 @@ namespace TennisGame.Assets.Scripts
             _rigidbody = GetComponent<Rigidbody2D>();
             _collider = GetComponent<BoxCollider2D>();
             _layerMask = LayerMask.GetMask("ColliderBehaviour");
+            _aiForce = new AdversaryAIForce(AIType);
         }
 
         private void FixedUpdate()
@@ -64,7 +65,7 @@ namespace TennisGame.Assets.Scripts
         private void Think()
         {
             var hit = GetBallHit(ballController.Position, ballController.Velocity);
-            HandleHit(hit, ballController.Velocity, Random.Range(0, 3), 0);
+            HandleHit(hit, ballController.Velocity, _aiForce.GetMaxStepThink(), 0);
         }
 
         private void HandleHit(RaycastHit2D hit, Vector2 direction, int maxStep, int currentStep)
@@ -101,9 +102,10 @@ namespace TennisGame.Assets.Scripts
         private void GenerateSelfStep(RaycastHit2D hit)
         {
             _currentSelfStepTime += Time.deltaTime;
-            if (_currentSelfStepTime < _selfStepTime)
+            if (_currentSelfStepTime < _aiForce.GetMoveForceStep())
                 return;
             _currentSelfStepTime = 0f;
+            OffAdditionalForce();
             var rand = Random.Range(-10, 10);
             if (rand >= 2)
             {
@@ -122,7 +124,8 @@ namespace TennisGame.Assets.Scripts
 
         private void GenerateSelfStepByStrategy1(RaycastHit2D hit)
         {
-            OnAdditionalForce();
+            if (_aiForce.GetAdditiveForceEnabledByOne())
+                OnAdditionalForce();
             var size = _collider.size.x / 2f;
             var mSize = size / 2f;
             if (playerController.Position.x > hit.point.x)
@@ -133,23 +136,17 @@ namespace TennisGame.Assets.Scripts
 
         private void GenerateSelfStepByStrategy2(RaycastHit2D hit)
         {
-            TryAdditionalForce();
+            if (_aiForce.GetAdditiveForceEnabled())
+                OnAdditionalForce();
             _selfStep = 0f;
         }
 
         private void GenerateSelfStepByStrategy3(RaycastHit2D hit)
         {
-            TryAdditionalForce();
+            if (_aiForce.GetAdditiveForceEnabled())
+                OnAdditionalForce();
             var size = _collider.size.x / 2f;
             _selfStep = Random.Range(-size, size);
-        }
-
-        private void TryAdditionalForce()
-        {
-            if (Random.Range(-10, 10) >= 0)
-                OnAdditionalForce();
-            else
-                OffAdditionalForce();
         }
 
         private void MoveBySelf(RaycastHit2D hit)
@@ -188,12 +185,12 @@ namespace TennisGame.Assets.Scripts
 
         private void MoveRight()
         {
-            _horizontal = Mathf.Clamp(_horizontal + _moveStep, -1f, 1f);
+            _horizontal = Mathf.Clamp(_horizontal + _aiForce.GetMoveForceStep(), -1f, 1f);
         }
 
         private void MoveLeft()
         {
-            _horizontal = Mathf.Clamp(_horizontal - _moveStep, -1f, 1f);
+            _horizontal = Mathf.Clamp(_horizontal - _aiForce.GetMoveForceStep(), -1f, 1f);
         }
 
         private void StopMove()
