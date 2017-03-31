@@ -15,9 +15,14 @@ namespace TennisGame.Assets.Scripts
 
         private Rigidbody2D _rigidbody;
         private BoxCollider2D _collider;
+        private LayerMask _layerMask;
         private float _currentAdditionalForce = 0f;
         private float _horizontal = 0f;
-
+        private float _selfStep = 0f;
+        private float _selfStepTime = 1f;
+        private float _currentSelfStepTime = 0f;
+        private float _moveStep = 0.15f;
+        
         public float YForce
         {
             get { return -1f; }
@@ -42,6 +47,7 @@ namespace TennisGame.Assets.Scripts
         {
             _rigidbody = GetComponent<Rigidbody2D>();
             _collider = GetComponent<BoxCollider2D>();
+            _layerMask = LayerMask.GetMask("ColliderBehaviour");
         }
 
         private void FixedUpdate()
@@ -52,36 +58,13 @@ namespace TennisGame.Assets.Scripts
 
         private void Update()
         {
-            //if (Input.GetKey(KeyCode.LeftArrow))
-            //    MoveLeft();
-            //if (Input.GetKey(KeyCode.RightArrow))
-            //    MoveRight();
-            //if (Input.GetKey(KeyCode.DownArrow))
-            //    StopMove();
-            //if (Input.GetKeyUp(KeyCode.UpArrow))
-            //    OffAdditionalForce();
-            //if (Input.GetKeyDown(KeyCode.UpArrow))
-            //    OnAdditionalForce();
-
             Think();
-
-            //RaycastHit2D hit = Physics2D.Raycast(ballController.Position, ballController.Velocity, Mathf.Infinity, _layerMask);
-            //if (hit.collider != null)
-            //{
-            //    Debug.DrawLine(ballController.Position, hit.point, Color.yellow);
-            //    var dir = Vector2.Reflect(ballController.Velocity, hit.normal);
-            //    var hit2 = Physics2D.Raycast(hit.point, dir, Mathf.Infinity, _layerMask);
-            //    if (hit2.collider != null)
-            //    {
-            //        Debug.DrawLine(hit.point, hit2.point, Color.red);
-            //    }
-            //}
         }
 
         private void Think()
         {
             var hit = GetBallHit(ballController.Position, ballController.Velocity);
-            HandleHit(hit, ballController.Velocity, 3, 1);
+            HandleHit(hit, ballController.Velocity, Random.Range(0, 3), 0);
         }
 
         private void HandleHit(RaycastHit2D hit, Vector2 direction, int maxStep, int currentStep)
@@ -90,10 +73,12 @@ namespace TennisGame.Assets.Scripts
             {
                 if (IsAdversaryHit(hit))
                 {
-
+                    GenerateSelfStep(hit);
+                    MoveBySelf(hit);
                 }
                 else if (IsTopWallHit(hit))
                 {
+                    GenerateSelfStep(hit);
                     MoveByTopWall(hit);
                 }
                 else if (maxStep > currentStep)
@@ -111,6 +96,68 @@ namespace TennisGame.Assets.Scripts
             {
                 StopMove();
             }
+        }
+
+        private void GenerateSelfStep(RaycastHit2D hit)
+        {
+            _currentSelfStepTime += Time.deltaTime;
+            if (_currentSelfStepTime < _selfStepTime)
+                return;
+            _currentSelfStepTime = 0f;
+            var rand = Random.Range(-10, 10);
+            if (rand >= 2)
+            {
+                GenerateSelfStepByStrategy1(hit);
+            }
+            else if (rand >= -3 && rand < 2)
+            {
+                GenerateSelfStepByStrategy2(hit);
+            }
+            else
+            {
+                GenerateSelfStepByStrategy3(hit);
+            }
+            Debug.Log(_selfStep);
+        }
+
+        private void GenerateSelfStepByStrategy1(RaycastHit2D hit)
+        {
+            OnAdditionalForce();
+            var size = _collider.size.x / 2f;
+            var mSize = size / 2f;
+            if (playerController.Position.x > hit.point.x)
+                _selfStep = Random.Range(-size, -mSize);
+            else
+                _selfStep = Random.Range(mSize, size);
+        }
+
+        private void GenerateSelfStepByStrategy2(RaycastHit2D hit)
+        {
+            TryAdditionalForce();
+            _selfStep = 0f;
+        }
+
+        private void GenerateSelfStepByStrategy3(RaycastHit2D hit)
+        {
+            TryAdditionalForce();
+            var size = _collider.size.x / 2f;
+            _selfStep = Random.Range(-size, size);
+        }
+
+        private void TryAdditionalForce()
+        {
+            if (Random.Range(-10, 10) >= 0)
+                OnAdditionalForce();
+            else
+                OffAdditionalForce();
+        }
+
+        private void MoveBySelf(RaycastHit2D hit)
+        {
+            if (hit.point.x > _rigidbody.position.x + _selfStep)
+                MoveRight();
+            else if (hit.point.x < _rigidbody.position.x + _selfStep)
+                MoveLeft();
         }
 
         private void MoveByTopWall(RaycastHit2D hit)
@@ -133,7 +180,7 @@ namespace TennisGame.Assets.Scripts
 
         private RaycastHit2D GetBallHit(Vector2 origin, Vector2 direction)
         {
-            var hit = Physics2D.Raycast(origin, direction, Mathf.Infinity);
+            var hit = Physics2D.Raycast(origin, direction, Mathf.Infinity, _layerMask);
             if (hit.collider != null)
                 Debug.DrawLine(origin, hit.point, Color.red);
             return hit;
@@ -141,12 +188,12 @@ namespace TennisGame.Assets.Scripts
 
         private void MoveRight()
         {
-            _horizontal = Mathf.Clamp(_horizontal + 0.25f, -1f, 1f);
+            _horizontal = Mathf.Clamp(_horizontal + _moveStep, -1f, 1f);
         }
 
         private void MoveLeft()
         {
-            _horizontal = Mathf.Clamp(_horizontal - 0.25f, -1f, 1f);
+            _horizontal = Mathf.Clamp(_horizontal - _moveStep, -1f, 1f);
         }
 
         private void StopMove()

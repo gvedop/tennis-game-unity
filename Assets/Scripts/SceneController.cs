@@ -34,15 +34,15 @@ namespace TennisGame.Assets.Scripts
             adversary.transform.localScale = adversary.transform.localScale * field.WidthScale;
             ball.transform.localScale = ball.transform.localScale * field.WidthScale;
 
-            var playerMiddleSize = player.GetComponent<SpriteRenderer>().bounds.size / 2f;
-            player.transform.localPosition = field.BottomCenter.WithAddY(playerMiddleSize.y);
+            var playerMiddleSizeY = player.GetComponent<SpriteRenderer>().bounds.size.y / 2f;
+            player.transform.localPosition = field.BottomCenter.WithAddY(playerMiddleSizeY);
             player.xMin = field.BottomLeftCorner.x;
             player.xMax = field.BottomRightCorner.x;
             player.yPosition = field.BottomCenter.y;
             player.speed = player.speed * field.HeightScale;
 
-            var adversaryMiddleSize = adversary.GetComponent<SpriteRenderer>().bounds.size / 2f;
-            adversary.transform.localPosition = field.TopCenter.WithSubY(adversaryMiddleSize.y);
+            var adversaryMiddleSizeY = adversary.GetComponent<SpriteRenderer>().bounds.size.y / 2f;
+            adversary.transform.localPosition = field.TopCenter.WithSubY(adversaryMiddleSizeY);
             adversary.xMin = field.TopLeftCorner.x;
             adversary.xMax = field.TopRightCorner.x;
             adversary.yPosition = field.TopCenter.y;

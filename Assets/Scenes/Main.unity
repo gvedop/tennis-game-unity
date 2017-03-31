@@ -103,7 +103,7 @@ GameObject:
   - component: {fileID: 118961024}
   - component: {fileID: 118961023}
   - component: {fileID: 118961022}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -121,11 +121,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e007b3da6348574cad5172790f789d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 500
+  speed: 600
   xMin: -100
   xMax: 100
   yPosition: 0
-  additionalForce: 200
+  additionalForce: 350
 --- !u!50 &118961023
 Rigidbody2D:
   serializedVersion: 4
@@ -282,7 +282,7 @@ GameObject:
   - component: {fileID: 329294628}
   - component: {fileID: 329294627}
   - component: {fileID: 329294626}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Adversary
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -307,7 +307,7 @@ MonoBehaviour:
   xMin: -100
   xMax: 100
   yPosition: 0
-  additionalForce: 200
+  additionalForce: 350
 --- !u!50 &329294627
 Rigidbody2D:
   serializedVersion: 4
@@ -400,7 +400,7 @@ GameObject:
   - component: {fileID: 603836134}
   - component: {fileID: 603836133}
   - component: {fileID: 603836135}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: TopWall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -457,7 +457,7 @@ GameObject:
   - component: {fileID: 898875375}
   - component: {fileID: 898875374}
   - component: {fileID: 898875378}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Ball
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -569,7 +569,7 @@ GameObject:
   - component: {fileID: 1119918297}
   - component: {fileID: 1119918296}
   - component: {fileID: 1119918298}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: LeftWall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -759,7 +759,7 @@ GameObject:
   - component: {fileID: 1675741403}
   - component: {fileID: 1675741402}
   - component: {fileID: 1675741404}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: BottomWall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -814,7 +814,7 @@ GameObject:
   - component: {fileID: 1756922634}
   - component: {fileID: 1756922633}
   - component: {fileID: 1756922635}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: RightWall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -891,8 +891,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 17, y: 7}
-  m_SizeDelta: {x: -417, y: -241}
+  m_AnchoredPosition: {x: 0, y: 7}
+  m_SizeDelta: {x: -787, y: -73}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1960079998
 MonoBehaviour:

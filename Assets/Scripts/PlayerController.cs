@@ -33,6 +33,16 @@ namespace TennisGame.Assets.Scripts
             get { return Input.GetKey(KeyCode.UpArrow) ? additionalForce : 0f; }
         }
 
+        public Vector2 Position
+        {
+            get { return _rigidbody.position; }
+        }
+
+        public Vector2 Velocity
+        {
+            get { return _rigidbody.velocity; }
+        }
+
         private void Awake()
         {
             _rigidbody = GetComponent<Rigidbody2D>();
