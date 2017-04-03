@@ -15,9 +15,9 @@ namespace TennisGame.Assets.Scripts
         private float _widthScale;
         private float _heightScale;
 
-        public Field(RectTransform rect, Camera camera)
+        public Field(Canvas canvas, RectTransform rect, Camera camera)
         {
-            Init(rect, camera);
+            Init(canvas, rect, camera);
         }
 
         public Vector2 TopLeftCorner
@@ -85,12 +85,14 @@ namespace TennisGame.Assets.Scripts
             get { return _heightScale; }
         }
 
-        private void Init(RectTransform rect, Camera camera)
+        private void Init(Canvas canvas, RectTransform rect, Camera camera)
         {
             var cornerPositions = new Vector3[4];
             rect.GetWorldCorners(cornerPositions);
             for (int i = 0; i < cornerPositions.Length; i++)
-                _corners[i] = camera.ScreenToWorldPoint(cornerPositions[i]);
+            {
+                _corners[i] = canvas.renderMode == RenderMode.ScreenSpaceOverlay ? camera.ScreenToWorldPoint(cornerPositions[i]) : cornerPositions[i];
+            }
             _center = GetCenter();
             _topCenter = GetTopCenter();
             _bottomCenter = GetBottomCenter();

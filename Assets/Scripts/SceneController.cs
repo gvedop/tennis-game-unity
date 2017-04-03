@@ -11,6 +11,7 @@ namespace TennisGame.Assets.Scripts
         public WallController topWall;
         public WallController rightWall;
         public WallController bottomWall;
+        public Canvas canvas;
         public RectTransform rect;
 
         private Field field;
@@ -28,7 +29,7 @@ namespace TennisGame.Assets.Scripts
 
         private void Init()
         {
-            field = new Field(rect, Camera.main);
+            field = new Field(canvas, rect, Camera.main);
 
             player.transform.localScale = player.transform.localScale * field.WidthScale;
             adversary.transform.localScale = adversary.transform.localScale * field.WidthScale;
@@ -39,14 +40,14 @@ namespace TennisGame.Assets.Scripts
             player.xMin = field.BottomLeftCorner.x;
             player.xMax = field.BottomRightCorner.x;
             player.yPosition = field.BottomCenter.y;
-            player.speed = player.speed * field.HeightScale;
+            //player.speed = player.speed * field.HeightScale;
 
             var adversaryMiddleSizeY = adversary.GetComponent<SpriteRenderer>().bounds.size.y / 2f;
             adversary.transform.localPosition = field.TopCenter.WithSubY(adversaryMiddleSizeY);
             adversary.xMin = field.TopLeftCorner.x;
             adversary.xMax = field.TopRightCorner.x;
             adversary.yPosition = field.TopCenter.y;
-            adversary.speed = adversary.speed * field.HeightScale;
+            //adversary.speed = adversary.speed * field.HeightScale;
 
             ball.transform.localPosition = field.Center;
             ball.scale = field.WidthScale;

@@ -13,6 +13,7 @@ namespace TennisGame.Assets.Scripts
         public float xMax = 100f;
         public float yPosition = 0f;
         public float additionalForce = 50f;
+        public bool isShowRay = false;
 
         private Rigidbody2D _rigidbody;
         private BoxCollider2D _collider;
@@ -119,7 +120,6 @@ namespace TennisGame.Assets.Scripts
             {
                 GenerateSelfStepByStrategy3(hit);
             }
-            Debug.Log(_selfStep);
         }
 
         private void GenerateSelfStepByStrategy1(RaycastHit2D hit)
@@ -178,7 +178,7 @@ namespace TennisGame.Assets.Scripts
         private RaycastHit2D GetBallHit(Vector2 origin, Vector2 direction)
         {
             var hit = Physics2D.Raycast(origin, direction, Mathf.Infinity, _layerMask);
-            if (hit.collider != null)
+            if (hit.collider != null && isShowRay)
                 Debug.DrawLine(origin, hit.point, Color.red);
             return hit;
         }
