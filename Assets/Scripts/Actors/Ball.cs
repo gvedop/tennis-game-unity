@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace TennisGame.Assets.Scripts.Actors
+namespace TennisGame.Actors
 {
     [DisallowMultipleComponent]
     [RequireComponent(typeof(SpriteRenderer), typeof(CircleCollider2D), typeof(Rigidbody2D))]
