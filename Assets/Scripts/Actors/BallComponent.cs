@@ -4,7 +4,7 @@ namespace TennisGame.Actors
 {
     [DisallowMultipleComponent]
     [RequireComponent(typeof(SpriteRenderer), typeof(CircleCollider2D), typeof(Rigidbody2D))]
-    public class Ball: MonoBehaviour
+    public class BallComponent: MonoBehaviour
     {
         public float Speed = 300f;
 

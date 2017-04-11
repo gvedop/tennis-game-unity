@@ -4,7 +4,7 @@ namespace TennisGame.Actors
 {
     [DisallowMultipleComponent]
     [RequireComponent(typeof(SpriteRenderer), typeof(BoxCollider2D), typeof(Rigidbody2D))]
-    public class Platform: MonoBehaviour
+    public class PlatformComponent: MonoBehaviour
     {
         public float Speed = 300f;
         public float LeftBorder = -300f;

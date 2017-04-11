@@ -4,7 +4,7 @@ namespace TennisGame.Actors
 {
     [DisallowMultipleComponent]
     [RequireComponent(typeof(BoxCollider2D))]
-    public class Wall: MonoBehaviour
+    public class WallComponent: MonoBehaviour
     {
         private BoxCollider2D selfCollider;
 

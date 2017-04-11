@@ -2,7 +2,7 @@
 
 namespace TennisGame.Actors
 {
-    public class Player: Platform
+    public class PlayerComponent: PlatformComponent
     {
         protected override float GetHorizontalAxis()
         {
