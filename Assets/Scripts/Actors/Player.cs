@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace TennisGame
+namespace TennisGame.Actors
 {
     public class Player: Platform
     {

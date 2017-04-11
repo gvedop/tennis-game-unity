@@ -1,14 +1,14 @@
 ﻿using UnityEngine;
 
-namespace TennisGame
+namespace TennisGame.Actors
 {
     [DisallowMultipleComponent]
     [RequireComponent(typeof(SpriteRenderer), typeof(BoxCollider2D), typeof(Rigidbody2D))]
     public class Platform: MonoBehaviour
     {
-        public float speed = 300f;
-        public float leftBorder = -300f;
-        public float rightBorder = 300f;
+        public float Speed = 300f;
+        public float LeftBorder = -300f;
+        public float RightBorder = 300f;
 
         private SpriteRenderer selfSpriteRenderer;
         private BoxCollider2D selfCollider;
@@ -40,9 +40,9 @@ namespace TennisGame
 
         private void FixedUpdate()
         {
-            selfRigidbody.velocity = Vector2.right * speed * GetHorizontalAxis();
+            selfRigidbody.velocity = Vector2.right * Speed * GetHorizontalAxis();
             var pos = selfRigidbody.position;
-            selfRigidbody.position = new Vector2(Mathf.Clamp(pos.x, leftBorder, rightBorder), pos.y);
+            selfRigidbody.position = new Vector2(Mathf.Clamp(pos.x, LeftBorder, RightBorder), pos.y);
         }
     }
 }
