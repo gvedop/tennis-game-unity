@@ -12,6 +12,9 @@ namespace TennisGame.Game
         public WallComponent LeftWall;
         public WallComponent RightWall;
         public BallComponent Ball;
+        public Canvas FieldCanvas;
+        public RectTransform FieldRect;
+        public Camera FieldCamera;
 
         private void Awake()
         {
