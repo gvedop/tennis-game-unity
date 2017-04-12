@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace TennisGame.Core.Extensions
+namespace TennisGame.Core
 {
     public static class VectorExtension
     {
