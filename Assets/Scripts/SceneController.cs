@@ -31,7 +31,7 @@ namespace TennisGame.Assets.Scripts
         private void Init()
         {
             field = new Field(canvas, rect, Camera.main);
-
+            
             player.transform.localScale = player.transform.localScale * field.WidthScale;
             adversary.transform.localScale = adversary.transform.localScale * field.WidthScale;
             ball.transform.localScale = ball.transform.localScale * field.WidthScale;
