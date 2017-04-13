@@ -14,6 +14,21 @@ namespace TennisGame.Actors
         private BoxCollider2D selfCollider;
         private Rigidbody2D selfRigidbody;
 
+        public SpriteRenderer SelfSpriteRenderer
+        {
+            get { return SelfSpriteRenderer; }
+        }
+
+        public BoxCollider2D SelfCollider
+        {
+            get { return selfCollider; }
+        }
+
+        public Rigidbody2D SelfRigidbody
+        {
+            get { return selfRigidbody; }
+        }
+
         protected virtual void PostAwake()
         {
 
@@ -27,13 +42,13 @@ namespace TennisGame.Actors
         private void Awake()
         {
             selfSpriteRenderer = GetComponent<SpriteRenderer>();
-            if (selfSpriteRenderer == null)
+            if (!selfSpriteRenderer)
                 throw new UnassignedReferenceException("SpriteRenderer doesn't set.");
             selfCollider = GetComponent<BoxCollider2D>();
-            if (selfCollider == null)
+            if (!selfCollider)
                 throw new UnassignedReferenceException("BoxCollider2D doesn't set.");
             selfRigidbody = GetComponent<Rigidbody2D>();
-            if (selfRigidbody == null)
+            if (!selfRigidbody)
                 throw new UnassignedReferenceException("Rigidbody2D doesn't set.");
             PostAwake();
         }
