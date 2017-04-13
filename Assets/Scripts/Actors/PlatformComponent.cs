@@ -7,16 +7,16 @@ namespace TennisGame.Actors
     public class PlatformComponent: MonoBehaviour
     {
         public float Speed = 300f;
-        public float LeftBorder = -300f;
-        public float RightBorder = 300f;
-
+        
         private SpriteRenderer selfSpriteRenderer;
         private BoxCollider2D selfCollider;
         private Rigidbody2D selfRigidbody;
+        private float leftBorder = -300f;
+        private float rightBorder = 300f;
 
         public SpriteRenderer SelfSpriteRenderer
         {
-            get { return SelfSpriteRenderer; }
+            get { return selfSpriteRenderer; }
         }
 
         public BoxCollider2D SelfCollider
@@ -27,6 +27,12 @@ namespace TennisGame.Actors
         public Rigidbody2D SelfRigidbody
         {
             get { return selfRigidbody; }
+        }
+
+        public void SetBorder(float left, float right)
+        {
+            leftBorder = left;
+            rightBorder = right;
         }
 
         protected virtual void PostAwake()
@@ -57,7 +63,7 @@ namespace TennisGame.Actors
         {
             selfRigidbody.velocity = Vector2.right * Speed * GetHorizontalAxis();
             var pos = selfRigidbody.position;
-            selfRigidbody.position = new Vector2(Mathf.Clamp(pos.x, LeftBorder, RightBorder), pos.y);
+            selfRigidbody.position = new Vector2(Mathf.Clamp(pos.x, leftBorder, rightBorder), pos.y);
         }
     }
 }

@@ -40,12 +40,13 @@ namespace TennisGame.Game
                 return;
             field = new Field(FieldCanvas, FieldRect, FieldCamera);
 
-            //TopPlatform.MulLocalScale(field.WidthScale);
+            TopPlatform.MulLocalScale(field.WidthScale);
+            TopPlatform.SetLocalPosition(field.TopCenter.WithSubY(TopPlatform.SelfSpriteRenderer.bounds.size.y / 2f));
+            TopPlatform.SetBorder(field.TopLeftCorner.x, field.TopRightCorner.x);
 
-
-            //BottomPlatform.MulLocalScale(field.WidthScale);
-
-            
+            BottomPlatform.MulLocalScale(field.WidthScale);
+            BottomPlatform.SetLocalPosition(field.BottomCenter.WithAddY(BottomPlatform.SelfSpriteRenderer.bounds.size.y / 2f));
+            BottomPlatform.SetBorder(field.BottomLeftCorner.x, field.BottomRightCorner.x);
 
 
             //player.transform.localScale = player.transform.localScale * field.WidthScale;
