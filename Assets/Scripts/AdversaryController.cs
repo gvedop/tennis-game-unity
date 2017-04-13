@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using TennisGame.AI;
 
 namespace TennisGame.Assets.Scripts
 {
@@ -7,7 +8,7 @@ namespace TennisGame.Assets.Scripts
         public SceneController sceneController;
         public PlayerController playerController;
         public BallController ballController;
-        public AdversaryAIType AIType = AdversaryAIType.LOW;
+        public AIQuality AIQuality = AIQuality.Low;
         public float speed = 500f;
         public float xMin = -100f;
         public float xMax = 100f;
@@ -49,7 +50,7 @@ namespace TennisGame.Assets.Scripts
             _rigidbody = GetComponent<Rigidbody2D>();
             _collider = GetComponent<BoxCollider2D>();
             _layerMask = LayerMask.GetMask("ColliderBehaviour");
-            _aiForce = new AdversaryAIForce(AIType);
+            _aiForce = new AdversaryAIForce(AIQuality);
         }
 
         private void FixedUpdate()

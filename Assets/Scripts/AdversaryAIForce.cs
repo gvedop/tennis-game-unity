@@ -1,12 +1,13 @@
 ﻿using UnityEngine;
+using TennisGame.AI;
 
 namespace TennisGame.Assets.Scripts
 {
     public class AdversaryAIForce
     {
-        private AdversaryAIType _adversaryAIType;
+        private AIQuality _adversaryAIType;
 
-        public AdversaryAIForce(AdversaryAIType adversaryAIType)
+        public AdversaryAIForce(AIQuality adversaryAIType)
         {
             _adversaryAIType = adversaryAIType;
         }
@@ -15,11 +16,11 @@ namespace TennisGame.Assets.Scripts
         {
             switch (_adversaryAIType)
             {
-                case AdversaryAIType.LOW:
+                case AIQuality.Low:
                     return Random.Range(0, 2);
-                case AdversaryAIType.MIDDLE:
+                case AIQuality.Middle:
                     return Random.Range(0, 3);
-                case AdversaryAIType.HIGH:
+                case AIQuality.High:
                     return 3;
                 default:
                     return 1;
@@ -30,11 +31,11 @@ namespace TennisGame.Assets.Scripts
         {
             switch (_adversaryAIType)
             {
-                case AdversaryAIType.LOW:
+                case AIQuality.Low:
                     return 0.1f;
-                case AdversaryAIType.MIDDLE:
+                case AIQuality.Middle:
                     return 0.15f;
-                case AdversaryAIType.HIGH:
+                case AIQuality.High:
                     return 0.2f;
                 default:
                     return 0.1f;
@@ -45,11 +46,11 @@ namespace TennisGame.Assets.Scripts
         {
             switch(_adversaryAIType)
             {
-                case AdversaryAIType.LOW:
+                case AIQuality.Low:
                     return Random.Range(-10, 3) >= 0;
-                case AdversaryAIType.MIDDLE:
+                case AIQuality.Middle:
                     return Random.Range(-10, 10) >= 0;
-                case AdversaryAIType.HIGH:
+                case AIQuality.High:
                     return Random.Range(-3, 10) >= 0;
                 default:
                     return false;
@@ -60,11 +61,11 @@ namespace TennisGame.Assets.Scripts
         {
             switch (_adversaryAIType)
             {
-                case AdversaryAIType.LOW:
+                case AIQuality.Low:
                     return Random.Range(-10, 10) >= 0;
-                case AdversaryAIType.MIDDLE:
+                case AIQuality.Middle:
                     return Random.Range(-5, 10) >= 0;
-                case AdversaryAIType.HIGH:
+                case AIQuality.High:
                     return true;
                 default:
                     return false;
@@ -75,11 +76,11 @@ namespace TennisGame.Assets.Scripts
         {
             switch (_adversaryAIType)
             {
-                case AdversaryAIType.LOW:
+                case AIQuality.Low:
                     return 2f;
-                case AdversaryAIType.MIDDLE:
+                case AIQuality.Middle:
                     return 1.5f;
-                case AdversaryAIType.HIGH:
+                case AIQuality.High:
                     return 1f;
                 default:
                     return 2f;
