@@ -6,11 +6,10 @@ namespace TennisGame.Actors
     [RequireComponent(typeof(SpriteRenderer), typeof(BoxCollider2D), typeof(Rigidbody2D))]
     public class PlatformComponent: MonoBehaviour
     {
-        public float Speed = 300f;
-        
         private SpriteRenderer selfSpriteRenderer;
         private BoxCollider2D selfCollider;
         private Rigidbody2D selfRigidbody;
+        private float speed = 300f;
         private float leftBorder = -300f;
         private float rightBorder = 300f;
 
@@ -27,6 +26,12 @@ namespace TennisGame.Actors
         public Rigidbody2D SelfRigidbody
         {
             get { return selfRigidbody; }
+        }
+
+        public float Speed
+        {
+            get { return speed; }
+            set { speed = value; }
         }
 
         public void SetBorder(float left, float right)
@@ -61,7 +66,7 @@ namespace TennisGame.Actors
 
         private void FixedUpdate()
         {
-            selfRigidbody.velocity = Vector2.right * Speed * GetHorizontalAxis();
+            selfRigidbody.velocity = Vector2.right * speed * GetHorizontalAxis();
             var pos = selfRigidbody.position;
             selfRigidbody.position = new Vector2(Mathf.Clamp(pos.x, leftBorder, rightBorder), pos.y);
         }

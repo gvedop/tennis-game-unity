@@ -6,11 +6,16 @@ namespace TennisGame.Actors
     [RequireComponent(typeof(SpriteRenderer), typeof(CircleCollider2D), typeof(Rigidbody2D))]
     public class BallComponent: MonoBehaviour
     {
-        public float Speed = 300f;
-
         private SpriteRenderer selfSpriteRenderer;
         private CircleCollider2D selfCollider;
         private Rigidbody2D selfRigidbody;
+        private float speed = 0f;
+        
+        public float Speed
+        {
+            get { return speed; }
+            set { speed = value; }
+        }
 
         private void Awake()
         {
@@ -31,7 +36,7 @@ namespace TennisGame.Actors
             if (collisionProvider != null)
             {
                 var direction = collisionProvider.GetCollisionDirection(transform.position);
-                selfRigidbody.velocity = direction * (Speed + collisionProvider.GetCollisionAdditionalForce());
+                selfRigidbody.velocity = direction * (speed + collisionProvider.GetCollisionAdditionalForce());
             }
         }
     }
