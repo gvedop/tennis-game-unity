@@ -836,17 +836,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69572f03a2457284cbe72ed2d1ebf223, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TopPlatform: {fileID: 884497887}
-  BottomPlatform: {fileID: 2091612961}
-  TopWall: {fileID: 1634765534}
-  BottomWall: {fileID: 1673857779}
-  LeftWall: {fileID: 1829102934}
-  RightWall: {fileID: 1500056988}
-  Ball: {fileID: 1761525167}
+  actors:
+    TopPlatform: {fileID: 2091612961}
+    BottomPlatform: {fileID: 884497887}
+    Ball: {fileID: 1761525167}
+    WallSet:
+      TopWall: {fileID: 1634765534}
+      BottomWall: {fileID: 1673857779}
+      LeftWall: {fileID: 1829102934}
+      RightWall: {fileID: 1500056988}
   FieldCanvas: {fileID: 843263834}
   FieldRect: {fileID: 921832245}
   FieldCamera: {fileID: 228943613}
   WallWidth: 100
+  PlatformSpeed: 300
+  BallSpeed: 300
 --- !u!4 &2049057293
 Transform:
   m_ObjectHideFlags: 0

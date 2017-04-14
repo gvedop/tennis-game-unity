@@ -1,18 +1,19 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections.Generic;
+using UnityEngine;
 using TennisGame.Actors;
 using TennisGame.Core;
+using System.Collections;
 
 namespace TennisGame.Game
 {
-    public class MainSceneControllerComponent: MonoBehaviour
+
+
+    public class MainSceneControllerComponent : MonoBehaviour, IGameController
     {
-        public PlatformComponent TopPlatform;
-        public PlatformComponent BottomPlatform;
-        public WallComponent TopWall;
-        public WallComponent BottomWall;
-        public WallComponent LeftWall;
-        public WallComponent RightWall;
-        public BallComponent Ball;
+        [SerializeField]
+        private ActorSet actors;
+
         public Canvas FieldCanvas;
         public RectTransform FieldRect;
         public Camera FieldCamera;
@@ -24,26 +25,6 @@ namespace TennisGame.Game
 
         private void Awake()
         {
-            if (!TopPlatform)
-                throw new UnassignedReferenceException("TopPlatform doesn't set.");
-            if (!BottomPlatform)
-                throw new UnassignedReferenceException("BottomPlatform doesn't set.");
-            if (!Ball)
-                throw new UnassignedReferenceException("Ball doesn't set.");
-            if (!TopWall)
-                throw new UnassignedReferenceException("TopWall doesn't set.");
-            if (!BottomWall)
-                throw new UnassignedReferenceException("BottomWall doesn't set.");
-            if (!LeftWall)
-                throw new UnassignedReferenceException("LeftWall doesn't set.");
-            if (!RightWall)
-                throw new UnassignedReferenceException("RightWall doesn't set.");
-            if (!FieldCanvas)
-                throw new UnassignedReferenceException("FieldCanvas doesn't set.");
-            if (!FieldRect)
-                throw new UnassignedReferenceException("FieldRect doesn't set.");
-            if (!FieldCamera)
-                throw new UnassignedReferenceException("FieldCamera doesn't set.");
         }
 
         private void Start()
@@ -51,34 +32,51 @@ namespace TennisGame.Game
             InitComponents();
         }
 
+        private void OnDestroy()
+        {
+        }
+
         private void InitComponents()
         {
             field = new Field(FieldCanvas, FieldRect, FieldCamera);
 
-            TopPlatform.MulLocalScale(field.WidthScale);
-            TopPlatform.SetLocalPosition(field.TopCenter.WithSubY(TopPlatform.SelfSpriteRenderer.bounds.size.y / 2f));
-            TopPlatform.SetBorder(field.TopLeftCorner.x, field.TopRightCorner.x);
-            TopPlatform.Speed = PlatformSpeed;
+            actors.TopPlatform.MulLocalScale(field.WidthScale);
+            actors.TopPlatform.SetLocalPosition(field.TopCenter.WithSubY(actors.TopPlatform.MiddleHeight));
+            actors.TopPlatform.SetBorder(field.TopLeftCorner.x, field.TopRightCorner.x);
+            actors.TopPlatform.Speed = PlatformSpeed;
+            actors.TopPlatform.RegisterGameController(this);
 
-            BottomPlatform.MulLocalScale(field.WidthScale);
-            BottomPlatform.SetLocalPosition(field.BottomCenter.WithAddY(BottomPlatform.SelfSpriteRenderer.bounds.size.y / 2f));
-            BottomPlatform.SetBorder(field.BottomLeftCorner.x, field.BottomRightCorner.x);
-            BottomPlatform.Speed = PlatformSpeed;
+            actors.BottomPlatform.MulLocalScale(field.WidthScale);
+            actors.BottomPlatform.SetLocalPosition(field.BottomCenter.WithAddY(actors.BottomPlatform.MiddleHeight));
+            actors.BottomPlatform.SetBorder(field.BottomLeftCorner.x, field.BottomRightCorner.x);
+            actors.BottomPlatform.Speed = PlatformSpeed;
+            actors.BottomPlatform.RegisterGameController(this);
 
-            Ball.MulLocalScale(field.WidthScale);
-            Ball.SetLocalPosition(field.Center);
-            Ball.Speed = BallSpeed;
+            actors.Ball.MulLocalScale(field.WidthScale);
+            actors.Ball.SetLocalPosition(field.Center);
+            actors.Ball.Speed = BallSpeed;
 
             var middleWallWidth = WallWidth / 2f;
-            TopWall.Init(new Vector2(field.Width + 2 * WallWidth, WallWidth), field.TopCenter.WithAddY(middleWallWidth));
-            BottomWall.Init(new Vector2(field.Width + 2 * WallWidth, WallWidth), field.BottomCenter.WithSubY(middleWallWidth));
-            LeftWall.Init(new Vector2(WallWidth, field.Height), field.LeftCenter.WithSubX(middleWallWidth));
-            RightWall.Init(new Vector2(WallWidth, field.Height), field.RightCenter.WithAddX(middleWallWidth));
+            var doubleWallWidth = field.Width + 2 * WallWidth;
 
-            TopWall.IgnoreCollisions(TopPlatform.SelfCollider, BottomPlatform.SelfCollider);
-            BottomWall.IgnoreCollisions(TopPlatform.SelfCollider, BottomPlatform.SelfCollider);
-            LeftWall.IgnoreCollisions(TopPlatform.SelfCollider, BottomPlatform.SelfCollider);
-            RightWall.IgnoreCollisions(TopPlatform.SelfCollider, BottomPlatform.SelfCollider);
+            actors.WallSet.TopWall.SetSize(new Vector2(doubleWallWidth, WallWidth));
+            actors.WallSet.TopWall.SetLocalPosition(field.TopCenter.WithAddY(middleWallWidth));
+            actors.WallSet.TopWall.IgnoreCollisions(actors.TopPlatform.SelfCollider, actors.BottomPlatform.SelfCollider);
+
+            actors.WallSet.BottomWall.SetSize(new Vector2(doubleWallWidth, WallWidth));
+            actors.WallSet.BottomWall.SetLocalPosition(field.BottomCenter.WithSubY(middleWallWidth));
+            actors.WallSet.BottomWall.IgnoreCollisions(actors.TopPlatform.SelfCollider, actors.BottomPlatform.SelfCollider);
+
+            actors.WallSet.LeftWall.SetSize(new Vector2(WallWidth, field.Height));
+            actors.WallSet.LeftWall.SetLocalPosition(field.LeftCenter.WithSubX(middleWallWidth));
+            actors.WallSet.LeftWall.IgnoreCollisions(actors.TopPlatform.SelfCollider, actors.BottomPlatform.SelfCollider);
+
+            actors.WallSet.RightWall.SetSize(new Vector2(WallWidth, field.Height));
+            actors.WallSet.RightWall.SetLocalPosition(field.RightCenter.WithAddX(middleWallWidth));
+            actors.WallSet.RightWall.IgnoreCollisions(actors.TopPlatform.SelfCollider, actors.BottomPlatform.SelfCollider);
+
+            foreach (var actor in actors)
+                Debug.Log(actor.ActorName);
         }
     }
 }

@@ -1,19 +1,21 @@
 ﻿using UnityEngine;
+using TennisGame.Game;
 
 namespace TennisGame.Actors
 {
     [DisallowMultipleComponent]
     [RequireComponent(typeof(BoxCollider2D))]
-    public class WallComponent: MonoBehaviour
+    public class WallComponent: MonoBehaviour, IActor
     {
+        private IGameController gamecontroller;
         private BoxCollider2D selfCollider;
+        private IGameController gameController;
 
-        public void Init(Vector2 size, Vector2 position)
+        public void SetSize(Vector2 size)
         {
             selfCollider.size = size;
-            transform.localPosition = position;
         }
-
+        
         public void IgnoreCollision(Collider2D collider)
         {
             Physics2D.IgnoreCollision(selfCollider, collider);
@@ -23,6 +25,21 @@ namespace TennisGame.Actors
         {
             foreach (var col in colliders)
                 Physics2D.IgnoreCollision(selfCollider, col);
+        }
+
+        public string ActorName
+        {
+            get { return gameObject.name; }
+        }
+
+        public void RegisterGameController(IGameController controller)
+        {
+            gameController = controller;
+        }
+
+        public void UnregisterGameController()
+        {
+            gameController = null;
         }
 
         private void Awake()

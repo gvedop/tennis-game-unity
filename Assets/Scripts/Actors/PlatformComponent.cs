@@ -1,11 +1,13 @@
 ﻿using UnityEngine;
+using TennisGame.Game;
 
 namespace TennisGame.Actors
 {
     [DisallowMultipleComponent]
     [RequireComponent(typeof(SpriteRenderer), typeof(BoxCollider2D), typeof(Rigidbody2D))]
-    public class PlatformComponent: MonoBehaviour
+    public class PlatformComponent: MonoBehaviour, IActor
     {
+        private IGameController gameController;
         private SpriteRenderer selfSpriteRenderer;
         private BoxCollider2D selfCollider;
         private Rigidbody2D selfRigidbody;
@@ -34,10 +36,35 @@ namespace TennisGame.Actors
             set { speed = value; }
         }
 
+        public float Height
+        {
+            get { return selfSpriteRenderer.bounds.size.y; }
+        }
+
+        public float MiddleHeight
+        {
+            get { return Height / 2f; }
+        }
+
         public void SetBorder(float left, float right)
         {
             leftBorder = left;
             rightBorder = right;
+        }
+
+        public string ActorName
+        {
+            get { return gameObject.name; }
+        }
+
+        public void RegisterGameController(IGameController controller)
+        {
+            gameController = controller;
+        }
+
+        public void UnregisterGameController()
+        {
+            gameController = null;
         }
 
         protected virtual void PostAwake()
