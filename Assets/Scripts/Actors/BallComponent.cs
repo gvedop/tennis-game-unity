@@ -25,10 +25,14 @@ namespace TennisGame.Actors
                 throw new UnassignedReferenceException("Rigidbody2D doesn't set.");
         }
 
-        // 1  -0.5  0  0.5   1  <- x value
-        private float hitFactor(float ballPos, float platformPos, float platformWidth)
+        private void OnCollisionEnter2D(Collision2D collision)
         {
-            return (ballPos - platformPos) / platformWidth;
+            var collisionProvider = collision.gameObject.GetComponent<ICollisionProvider>();
+            if (collisionProvider != null)
+            {
+                var direction = collisionProvider.GetCollisionDirection(transform.position);
+                selfRigidbody.velocity = direction * (Speed + collisionProvider.GetCollisionAdditionalForce());
+            }
         }
     }
 }
