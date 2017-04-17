@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 61805462463764718}
   - component: {fileID: 50782303776771818}
   - component: {fileID: 114221967816294250}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: SimpleAdversary
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -71,7 +71,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 1352911101860522}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: c619fd19e0076a34bbf1f3bb6ade9702, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_Offset: {x: 0, y: 0}
@@ -88,7 +88,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3aa90475709852947933b39351bbec73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Speed: 300
 --- !u!212 &212520199188989490
 SpriteRenderer:
   m_ObjectHideFlags: 1
