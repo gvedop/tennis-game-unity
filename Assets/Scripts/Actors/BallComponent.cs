@@ -13,9 +13,9 @@ namespace TennisGame.Actors
         private Rigidbody2D selfRigidbody;
         private LayerMask colliderLayerMask;
         private float speed = 0f;
-        private Collider2D firstCollider;
-        private Collider2D secondCollider;
-        private Collider2D thirdCollider;
+        private RaycastHit2D firstHit;
+        private RaycastHit2D secondHit;
+        private RaycastHit2D thirdHit;
         [SerializeField]
         private bool isShowRay = false;
         private float timeCalcCollider = 0.7f;
@@ -45,13 +45,13 @@ namespace TennisGame.Actors
         private void Awake()
         {
             selfSpriteRenderer = GetComponent<SpriteRenderer>();
-            if (selfSpriteRenderer == null)
+            if (!selfSpriteRenderer)
                 throw new UnassignedReferenceException("SpriteRenderer doesn't set.");
             selfCollider = GetComponent<CircleCollider2D>();
-            if (selfCollider == null)
+            if (!selfCollider)
                 throw new UnassignedReferenceException("CircleCollider2D doesn't set.");
             selfRigidbody = GetComponent<Rigidbody2D>();
-            if (selfRigidbody == null)
+            if (!selfRigidbody)
                 throw new UnassignedReferenceException("Rigidbody2D doesn't set.");
             colliderLayerMask = LayerMask.GetMask("ColliderObject");
         }
@@ -76,8 +76,21 @@ namespace TennisGame.Actors
                 CalcColliders();
             }
         }
+        
+        private void OnDrawGizmos()
+        {
+            if (isShowRay)
+            {
+                if (firstHit)
+                    Gizmos.DrawWireSphere(firstHit.transform.position, 25);
+                if (secondHit)
+                    Gizmos.DrawWireSphere(secondHit.transform.position, 25);
+                if (thirdHit)
+                    Gizmos.DrawWireSphere(thirdHit.transform.position, 25);
+            }
+        }
 
-        private RaycastHit2D GetBallHit(Vector2 origin, Vector2 direction)
+        private RaycastHit2D GetDirectionHit(Vector2 origin, Vector2 direction)
         {
             var hit = Physics2D.Raycast(origin, direction, Mathf.Infinity, colliderLayerMask);
             if (hit.collider != null && isShowRay)
@@ -85,43 +98,19 @@ namespace TennisGame.Actors
             return hit;
         }
 
-        private void OnDrawGizmos()
-        {
-            if (isShowRay)
-            {
-                if (firstCollider != null)
-                    Gizmos.DrawWireSphere(firstCollider.transform.position, 25);
-                if (secondCollider != null)
-                    Gizmos.DrawWireSphere(secondCollider.transform.position, 25);
-                if (thirdCollider != null)
-                    Gizmos.DrawWireSphere(thirdCollider.transform.position, 25);
-            }
-        }
 
         private void CalcColliders()
         {
-            var hit = GetBallHit(selfRigidbody.position, selfRigidbody.velocity);
-            firstCollider = hit.collider;
-            if (firstCollider != null)
+            firstHit = GetDirectionHit(selfRigidbody.position, selfRigidbody.velocity);
+            if (firstHit)
             { 
-                var secondReflectDirection = Vector2.Reflect(selfRigidbody.velocity, hit.normal);
-                hit = GetBallHit(hit.point, secondReflectDirection);
-                secondCollider = hit.collider;
-                if (secondCollider != null)
+                var secondReflectDirection = Vector2.Reflect(selfRigidbody.velocity, firstHit.normal);
+                secondHit = GetDirectionHit(firstHit.point, secondReflectDirection);
+                if (secondHit)
                 {
-                    var thirdReflectDirection = Vector2.Reflect(secondReflectDirection, hit.normal);
-                    hit = GetBallHit(hit.point, thirdReflectDirection);
-                    thirdCollider = hit.collider;
+                    var thirdReflectDirection = Vector2.Reflect(secondReflectDirection, secondHit.normal);
+                    thirdHit = GetDirectionHit(secondHit.point, thirdReflectDirection);
                 }
-                else
-                {
-                    thirdCollider = null;
-                }
-            }
-            else
-            {
-                secondCollider = null;
-                thirdCollider = null;
             }
         }
     }

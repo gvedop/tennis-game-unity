@@ -1,10 +1,16 @@
 ﻿using UnityEngine;
+using TennisGame.Game;
 
 namespace TennisGame.Actors
 {
-    public class AdversaryComponent: PlatformComponent
+    public class AdversaryComponent: PlatformComponent, IAdversary
     {
         private float horizontal = 0f;
+
+        public IGameController GameController
+        {
+            get { return gameController; }
+        }
 
         public void SetHorizontalAxis(float value)
         {

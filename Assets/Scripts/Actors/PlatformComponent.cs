@@ -7,7 +7,8 @@ namespace TennisGame.Actors
     [RequireComponent(typeof(SpriteRenderer), typeof(BoxCollider2D), typeof(Rigidbody2D))]
     public class PlatformComponent: MonoBehaviour, IActor
     {
-        private IGameController gameController;
+        protected IGameController gameController;
+
         private SpriteRenderer selfSpriteRenderer;
         private BoxCollider2D selfCollider;
         private Rigidbody2D selfRigidbody;
