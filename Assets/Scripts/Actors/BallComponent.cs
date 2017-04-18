@@ -5,7 +5,7 @@ namespace TennisGame.Actors
 {
     [DisallowMultipleComponent]
     [RequireComponent(typeof(SpriteRenderer), typeof(CircleCollider2D), typeof(Rigidbody2D))]
-    public class BallComponent: MonoBehaviour, IActor
+    public class BallComponent : MonoBehaviour, IActor
     {
         private IGameController gameController;
         private SpriteRenderer selfSpriteRenderer;
@@ -21,7 +21,7 @@ namespace TennisGame.Actors
         [SerializeField]
         private float timeCalcCollider = 0.5f;
         private float currentTimeCalcCollider = 0f;
-        
+
         public float Speed
         {
             get { return speed; }
@@ -77,34 +77,31 @@ namespace TennisGame.Actors
                 CalcColliders();
             }
         }
-        
+
         private void OnDrawGizmos()
         {
-            if (isShowRay)
+            if (isShowRay && firstHit)
             {
-                var color = Gizmos.color;
-                if (firstHit)
+                DrawGizmosDirection(selfRigidbody.position, firstHit.point);
+                if (secondHit)
                 {
-                    DrawGizmosDirection(selfRigidbody.position, firstHit.point);
-                    if (secondHit)
+                    DrawGizmosDirection(firstHit.point, secondHit.point);
+                    if (thirdHit)
                     {
-                        DrawGizmosDirection(firstHit.point, secondHit.point);
-                        if (thirdHit)
-                        {
-                            DrawGizmosDirection(secondHit.point, thirdHit.point);
-                        }
+                        DrawGizmosDirection(secondHit.point, thirdHit.point);
                     }
                 }
-                Gizmos.color = color;
             }
         }
 
         private void DrawGizmosDirection(Vector2 from, Vector2 to)
         {
+            var color = Gizmos.color;
             Gizmos.color = Color.red;
             Gizmos.DrawLine(from, to);
             Gizmos.color = Color.yellow;
             Gizmos.DrawWireSphere(to, 12f);
+            Gizmos.color = color;
         }
 
         private RaycastHit2D GetDirectionHit(Vector2 origin, Vector2 direction)
@@ -117,7 +114,7 @@ namespace TennisGame.Actors
         {
             firstHit = GetDirectionHit(selfRigidbody.position, selfRigidbody.velocity);
             if (firstHit)
-            { 
+            {
                 var secondReflectDirection = Vector2.Reflect(selfRigidbody.velocity, firstHit.normal);
                 secondHit = GetDirectionHit(firstHit.point, secondReflectDirection);
                 if (secondHit)
