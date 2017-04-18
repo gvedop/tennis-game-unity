@@ -22,6 +22,32 @@ namespace TennisGame.Game
         private float ballSpeed = 300f;
         private Field field;
 
+        public BallComponent Ball
+        {
+            get { return actors.Ball; }
+        }
+
+        public bool IsObjectSelf(GameObject self, GameObject target)
+        {
+            return self.GetInstanceID() == target.GetInstanceID();
+        }
+
+        public bool IsOppositeWall(GameObject self, GameObject target)
+        {
+            if (self.GetInstanceID() == actors.TopPlatform.GetInstanceID())
+            {
+                return target.GetInstanceID() == actors.WallSet.BottomWall.GetInstanceID();
+            }
+            else if (self.GetInstanceID() == actors.BottomPlatform.GetInstanceID())
+            {
+                return target.GetInstanceID() == actors.WallSet.TopWall.GetInstanceID();
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         private void Awake()
         {
         }

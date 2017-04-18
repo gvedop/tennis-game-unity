@@ -7,15 +7,14 @@ namespace TennisGame.Actors
     [RequireComponent(typeof(SpriteRenderer), typeof(CircleCollider2D), typeof(Rigidbody2D))]
     public class BallComponent : MonoBehaviour, IActor
     {
+        public RaycastHit2D[] Hits = new RaycastHit2D[3];
+
         private IGameController gameController;
         private SpriteRenderer selfSpriteRenderer;
         private CircleCollider2D selfCollider;
         private Rigidbody2D selfRigidbody;
         private LayerMask colliderLayerMask;
         private float speed = 0f;
-        private RaycastHit2D firstHit;
-        private RaycastHit2D secondHit;
-        private RaycastHit2D thirdHit;
         [SerializeField]
         private bool isShowRay = false;
         [SerializeField]
@@ -80,15 +79,15 @@ namespace TennisGame.Actors
 
         private void OnDrawGizmos()
         {
-            if (isShowRay && firstHit)
+            if (isShowRay && Hits[0])
             {
-                DrawGizmosDirection(selfRigidbody.position, firstHit.point);
-                if (secondHit)
+                DrawGizmosDirection(selfRigidbody.position, Hits[0].point);
+                if (Hits[1])
                 {
-                    DrawGizmosDirection(firstHit.point, secondHit.point);
-                    if (thirdHit)
+                    DrawGizmosDirection(Hits[0].point, Hits[1].point);
+                    if (Hits[2])
                     {
-                        DrawGizmosDirection(secondHit.point, thirdHit.point);
+                        DrawGizmosDirection(Hits[1].point, Hits[2].point);
                     }
                 }
             }
@@ -112,15 +111,15 @@ namespace TennisGame.Actors
 
         private void CalcColliders()
         {
-            firstHit = GetDirectionHit(selfRigidbody.position, selfRigidbody.velocity);
-            if (firstHit)
+            Hits[0] = GetDirectionHit(selfRigidbody.position, selfRigidbody.velocity);
+            if (Hits[0])
             {
-                var secondReflectDirection = Vector2.Reflect(selfRigidbody.velocity, firstHit.normal);
-                secondHit = GetDirectionHit(firstHit.point, secondReflectDirection);
-                if (secondHit)
+                var secondReflectDirection = Vector2.Reflect(selfRigidbody.velocity, Hits[0].normal);
+                Hits[1] = GetDirectionHit(Hits[0].point, secondReflectDirection);
+                if (Hits[1])
                 {
-                    var thirdReflectDirection = Vector2.Reflect(secondReflectDirection, secondHit.normal);
-                    thirdHit = GetDirectionHit(secondHit.point, thirdReflectDirection);
+                    var thirdReflectDirection = Vector2.Reflect(secondReflectDirection, Hits[1].normal);
+                    Hits[2] = GetDirectionHit(Hits[1].point, thirdReflectDirection);
                 }
             }
         }
