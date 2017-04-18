@@ -18,7 +18,8 @@ namespace TennisGame.Actors
         private RaycastHit2D thirdHit;
         [SerializeField]
         private bool isShowRay = false;
-        private float timeCalcCollider = 0.7f;
+        [SerializeField]
+        private float timeCalcCollider = 0.5f;
         private float currentTimeCalcCollider = 0f;
         
         public float Speed
@@ -81,21 +82,38 @@ namespace TennisGame.Actors
         {
             if (isShowRay)
             {
+                var pointRadius = 12f;
+                var color = Gizmos.color;
+                var lineColor = Color.red;
+                var pointColor = Color.yellow;
                 if (firstHit)
-                    Gizmos.DrawWireSphere(firstHit.transform.position, 25);
-                if (secondHit)
-                    Gizmos.DrawWireSphere(secondHit.transform.position, 25);
-                if (thirdHit)
-                    Gizmos.DrawWireSphere(thirdHit.transform.position, 25);
+                {
+                    Gizmos.color = lineColor;
+                    Gizmos.DrawLine(selfRigidbody.position, firstHit.point);
+                    Gizmos.color = pointColor;
+                    Gizmos.DrawWireSphere(firstHit.point, pointRadius);
+                    if (secondHit)
+                    {
+                        Gizmos.color = lineColor;
+                        Gizmos.DrawLine(firstHit.point, secondHit.point);
+                        Gizmos.color = pointColor;
+                        Gizmos.DrawWireSphere(secondHit.point, pointRadius);
+                        if (thirdHit)
+                        {
+                            Gizmos.color = lineColor;
+                            Gizmos.DrawLine(secondHit.point, thirdHit.point);
+                            Gizmos.color = pointColor;
+                            Gizmos.DrawWireSphere(thirdHit.point, pointRadius);
+                        }
+                    }
+                }
+                Gizmos.color = color;
             }
         }
 
         private RaycastHit2D GetDirectionHit(Vector2 origin, Vector2 direction)
         {
-            var hit = Physics2D.Raycast(origin, direction, Mathf.Infinity, colliderLayerMask);
-            if (hit.collider != null && isShowRay)
-                Debug.DrawLine(origin, hit.point, Color.red);
-            return hit;
+            return Physics2D.Raycast(origin, direction, Mathf.Infinity, colliderLayerMask);
         }
 
 
