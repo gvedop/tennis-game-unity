@@ -82,33 +82,29 @@ namespace TennisGame.Actors
         {
             if (isShowRay)
             {
-                var pointRadius = 12f;
                 var color = Gizmos.color;
-                var lineColor = Color.red;
-                var pointColor = Color.yellow;
                 if (firstHit)
                 {
-                    Gizmos.color = lineColor;
-                    Gizmos.DrawLine(selfRigidbody.position, firstHit.point);
-                    Gizmos.color = pointColor;
-                    Gizmos.DrawWireSphere(firstHit.point, pointRadius);
+                    DrawGizmosDirection(selfRigidbody.position, firstHit.point);
                     if (secondHit)
                     {
-                        Gizmos.color = lineColor;
-                        Gizmos.DrawLine(firstHit.point, secondHit.point);
-                        Gizmos.color = pointColor;
-                        Gizmos.DrawWireSphere(secondHit.point, pointRadius);
+                        DrawGizmosDirection(firstHit.point, secondHit.point);
                         if (thirdHit)
                         {
-                            Gizmos.color = lineColor;
-                            Gizmos.DrawLine(secondHit.point, thirdHit.point);
-                            Gizmos.color = pointColor;
-                            Gizmos.DrawWireSphere(thirdHit.point, pointRadius);
+                            DrawGizmosDirection(secondHit.point, thirdHit.point);
                         }
                     }
                 }
                 Gizmos.color = color;
             }
+        }
+
+        private void DrawGizmosDirection(Vector2 from, Vector2 to)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawLine(from, to);
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireSphere(to, 12f);
         }
 
         private RaycastHit2D GetDirectionHit(Vector2 origin, Vector2 direction)
