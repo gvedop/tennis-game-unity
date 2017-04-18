@@ -10,17 +10,24 @@ namespace TennisGame.AI.Simple
         private AdversaryComponent adversary;
         [SerializeField]
         private AIQuality aiQuality = AIQuality.High;
+        private ISimpleAIQuality simpleAIQuality;
 
         private void Awake()
         {
             adversary = GetComponent<AdversaryComponent>();
             if (!adversary)
                 throw new UnassignedReferenceException("AdversaryComponent doesn't set.");
+            simpleAIQuality = aiQuality.GetSimpleAIQuality();
         }
 
         private void Update()
         {
-            Think(3, 0);
+            Think(simpleAIQuality.Deep, 0);
+        }
+
+        private void OnValidate()
+        {
+            simpleAIQuality = aiQuality.GetSimpleAIQuality();
         }
 
         private void Think(int deep, int current)
