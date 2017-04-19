@@ -6,7 +6,7 @@ namespace TennisGame.Game
     public interface IGameController
     {
         BallComponent Ball { get; }
-        bool IsObjectSelf(GameObject self, GameObject target);
-        bool IsOppositeWall(GameObject self, GameObject target);
+        bool IsItSelf(GameObject obj, GameObject target);
+        bool IsOppositeWall(GameObject obj, GameObject target);
     }
 }

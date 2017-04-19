@@ -17,7 +17,7 @@ namespace TennisGame.Actors
             horizontal = value;
         }
 
-        protected override float GetHorizontalAxis()
+        public override float GetHorizontalAxis()
         {
             return horizontal;
         }

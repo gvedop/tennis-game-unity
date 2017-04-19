@@ -13,5 +13,10 @@ namespace TennisGame.Core
         {
             obj.transform.localPosition = pos;
         }
+
+        public static int GetTransformInstanceID(this MonoBehaviour obj)
+        {
+            return obj.transform.GetInstanceID();
+        }
     }
 }

@@ -27,20 +27,20 @@ namespace TennisGame.Game
             get { return actors.Ball; }
         }
 
-        public bool IsObjectSelf(GameObject self, GameObject target)
+        public bool IsItSelf(GameObject obj, GameObject target)
         {
-            return self.GetInstanceID() == target.GetInstanceID();
+            return obj.GetTransformInstanceID() == target.GetTransformInstanceID();
         }
 
-        public bool IsOppositeWall(GameObject self, GameObject target)
+        public bool IsOppositeWall(GameObject obj, GameObject target)
         {
-            if (self.GetInstanceID() == actors.TopPlatform.GetInstanceID())
+            if (obj.GetTransformInstanceID() == actors.TopPlatform.GetTransformInstanceID())
             {
-                return target.GetInstanceID() == actors.WallSet.BottomWall.GetInstanceID();
+                return target.GetTransformInstanceID() == actors.WallSet.BottomWall.GetTransformInstanceID();
             }
-            else if (self.GetInstanceID() == actors.BottomPlatform.GetInstanceID())
+            else if (obj.GetTransformInstanceID() == actors.BottomPlatform.GetTransformInstanceID())
             {
-                return target.GetInstanceID() == actors.WallSet.TopWall.GetInstanceID();
+                return target.GetTransformInstanceID() == actors.WallSet.TopWall.GetTransformInstanceID();
             }
             else
             {

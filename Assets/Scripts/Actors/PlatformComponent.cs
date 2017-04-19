@@ -68,16 +68,16 @@ namespace TennisGame.Actors
             gameController = null;
         }
 
-        protected virtual void PostAwake()
-        {
-
-        }
-
-        protected virtual float GetHorizontalAxis()
+        public virtual float GetHorizontalAxis()
         {
             return 0f;
         }
 
+        protected virtual void PostAwake()
+        {
+
+        }
+        
         private void Awake()
         {
             selfSpriteRenderer = GetComponent<SpriteRenderer>();

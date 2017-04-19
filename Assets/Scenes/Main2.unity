@@ -696,6 +696,11 @@ Prefab:
       propertyPath: timeCalcCollider
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 50485742419675292, guid: 3fb48a294a5c646488d40a62683b89d1,
+        type: 2}
+      propertyPath: m_Interpolate
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3fb48a294a5c646488d40a62683b89d1, type: 2}
   m_IsPrefabParent: 0
@@ -743,6 +748,11 @@ Prefab:
     - target: {fileID: 4787869349817934, guid: 6482014faa06f6e4e9e91b5aefcdc07f, type: 2}
       propertyPath: m_RootOrder
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114052244127017074, guid: 6482014faa06f6e4e9e91b5aefcdc07f,
+        type: 2}
+      propertyPath: aiQuality
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 6482014faa06f6e4e9e91b5aefcdc07f, type: 2}

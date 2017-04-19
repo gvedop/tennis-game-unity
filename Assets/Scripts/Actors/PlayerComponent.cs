@@ -4,7 +4,7 @@ namespace TennisGame.Actors
 {
     public class PlayerComponent: PlatformComponent
     {
-        protected override float GetHorizontalAxis()
+        public override float GetHorizontalAxis()
         {
             return Input.GetAxis("Horizontal");
         }
