@@ -32,12 +32,12 @@ namespace TennisGame.AI.Simple
 
         private void Think(int deep, int current)
         {
-            if (current >= adversary.GameController.Ball.Hits.Length)
+            if (current >= adversary.GameController.Hits.Length)
                 return;
 
             //Debug.Log(string.Format("{0}: Think deep {1}", gameObject.name, current));
 
-            var hit = adversary.GameController.Ball.Hits[current];
+            var hit = adversary.GameController.Hits[current];
             if (hit.collider)
             {
                 if (adversary.GameController.IsItSelf(gameObject, hit.collider.gameObject))
@@ -65,12 +65,12 @@ namespace TennisGame.AI.Simple
 
         private void MoveLeft()
         {
-            adversary.SetHorizontalAxis(Mathf.Clamp(adversary.GetHorizontalAxis() - 0.5f, -1f, 1f));
+            adversary.SetHorizontalAxis(Mathf.Clamp(adversary.GetHorizontalAxis() - simpleAIQuality.MoveStep, -1f, 1f));
         }
 
         private void MoveRight()
         {
-            adversary.SetHorizontalAxis(Mathf.Clamp(adversary.GetHorizontalAxis() + 0.5f, -1f, 1f));
+            adversary.SetHorizontalAxis(Mathf.Clamp(adversary.GetHorizontalAxis() + simpleAIQuality.MoveStep, -1f, 1f));
         }
 
         private void StopMove()

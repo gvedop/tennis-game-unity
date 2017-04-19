@@ -22,9 +22,9 @@ namespace TennisGame.Game
         private float ballSpeed = 300f;
         private Field field;
 
-        public BallComponent Ball
+        public RaycastHit2D[] Hits
         {
-            get { return actors.Ball; }
+            get { return actors.Ball.Hits; }
         }
 
         public bool IsItSelf(GameObject obj, GameObject target)

@@ -7,5 +7,10 @@ namespace TennisGame.AI.Simple
         {
             get { return 1; }
         }
+
+        public float MoveStep
+        {
+            get { return 0.15f; }
+        }
     }
 }
