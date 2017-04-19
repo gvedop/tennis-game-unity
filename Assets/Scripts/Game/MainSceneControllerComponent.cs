@@ -19,6 +19,8 @@ namespace TennisGame.Game
         [SerializeField]
         private float platformSpeed = 300f;
         [SerializeField]
+        private float additionalForce = 100f;
+        [SerializeField]
         private float ballSpeed = 300f;
         private Field field;
 
@@ -88,11 +90,17 @@ namespace TennisGame.Game
             actors.TopPlatform.SetLocalPosition(field.TopCenter.WithSubY(actors.TopPlatform.MiddleHeight));
             actors.TopPlatform.SetBorder(field.TopLeftCorner.x, field.TopRightCorner.x);
             actors.TopPlatform.Speed = platformSpeed;
+            actors.TopPlatform.AdditionalForce = additionalForce;
+            actors.TopPlatform.YForce = -1f;
+            actors.TopPlatform.WidthScale = field.WidthScale;
 
             actors.BottomPlatform.MulLocalScale(field.WidthScale);
             actors.BottomPlatform.SetLocalPosition(field.BottomCenter.WithAddY(actors.BottomPlatform.MiddleHeight));
             actors.BottomPlatform.SetBorder(field.BottomLeftCorner.x, field.BottomRightCorner.x);
             actors.BottomPlatform.Speed = platformSpeed;
+            actors.BottomPlatform.AdditionalForce = additionalForce;
+            actors.BottomPlatform.YForce = 1f;
+            actors.BottomPlatform.WidthScale = field.WidthScale;
 
             actors.Ball.MulLocalScale(field.WidthScale);
             actors.Ball.SetLocalPosition(field.Center);

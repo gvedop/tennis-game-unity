@@ -865,6 +865,7 @@ MonoBehaviour:
   fieldCamera: {fileID: 228943613}
   wallWidth: 100
   platformSpeed: 500
+  additionalForce: 500
   ballSpeed: 500
 --- !u!4 &2049057293
 Transform:

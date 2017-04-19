@@ -8,5 +8,10 @@ namespace TennisGame.Actors
         {
             return Input.GetAxis("Horizontal");
         }
+
+        public override float GetCollisionAdditionalForce()
+        {
+            return Input.GetKey(KeyCode.UpArrow) ? additionalForce : 0f;
+        }
     }
 }

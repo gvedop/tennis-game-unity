@@ -5,9 +5,10 @@ namespace TennisGame.Actors
 {
     [DisallowMultipleComponent]
     [RequireComponent(typeof(SpriteRenderer), typeof(BoxCollider2D), typeof(Rigidbody2D))]
-    public class PlatformComponent: MonoBehaviour, IActor
+    public class PlatformComponent: MonoBehaviour, IActor, ICollisionProvider
     {
         protected IGameController gameController;
+        protected float additionalForce;
 
         private SpriteRenderer selfSpriteRenderer;
         private BoxCollider2D selfCollider;
@@ -15,6 +16,8 @@ namespace TennisGame.Actors
         private float speed = 300f;
         private float leftBorder = -300f;
         private float rightBorder = 300f;
+        private float yForce = 0f;
+        private float widthScale = 1f;
 
         public SpriteRenderer SelfSpriteRenderer
         {
@@ -35,6 +38,24 @@ namespace TennisGame.Actors
         {
             get { return speed; }
             set { speed = value; }
+        }
+
+        public float AdditionalForce
+        {
+            get { return additionalForce; }
+            set { additionalForce = value; }
+        }
+
+        public float YForce
+        {
+            get { return yForce; }
+            set { yForce = value; }
+        }
+
+        public float WidthScale
+        {
+            get { return widthScale; }
+            set { widthScale = value; }
         }
 
         public float Height
@@ -73,6 +94,17 @@ namespace TennisGame.Actors
             return 0f;
         }
 
+        public Vector2 GetCollisionDirection(Vector2 position)
+        {
+            float x = GetHitFactor(position.x, transform.position.x, selfCollider.bounds.size.x);
+            return new Vector2(x, yForce).normalized;
+        }
+
+        public virtual float GetCollisionAdditionalForce()
+        {
+            return 0f;
+        }
+
         protected virtual void PostAwake()
         {
 
@@ -97,6 +129,11 @@ namespace TennisGame.Actors
             selfRigidbody.velocity = Vector2.right * speed * GetHorizontalAxis();
             var pos = selfRigidbody.position;
             selfRigidbody.position = new Vector2(Mathf.Clamp(pos.x, leftBorder, rightBorder), pos.y);
+        }
+
+        private float GetHitFactor(float ballPos, float platformPos, float platformWidth)
+        {
+            return (ballPos - platformPos) / platformWidth * widthScale;
         }
     }
 }

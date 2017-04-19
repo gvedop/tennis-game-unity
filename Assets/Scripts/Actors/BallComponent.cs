@@ -112,8 +112,7 @@ namespace TennisGame.Actors
         {
             return Physics2D.Raycast(origin, direction, Mathf.Infinity, colliderLayerMask);
         }
-
-
+        
         private void CalcColliders()
         {
             Hits[0] = GetDirectionHit(selfRigidbody.position, selfRigidbody.velocity);
