@@ -11,6 +11,7 @@ namespace TennisGame.AI.Simple
         [SerializeField]
         private AIQuality aiQuality = AIQuality.High;
         private ISimpleAIQuality simpleAIQuality;
+        private float itselfStep = 0f;
 
         private void Awake()
         {
@@ -42,11 +43,15 @@ namespace TennisGame.AI.Simple
             {
                 if (adversary.GameController.IsItSelf(gameObject, hit.collider.gameObject))
                 {
-                    
+                    MoveByItSelf(hit.point.x);
+                }
+                else if (adversary.GameController.IsSelfWall(gameObject, hit.collider.gameObject))
+                {
+                    MoveBySelfWall(hit.point.x);
                 }
                 else if (adversary.GameController.IsOppositeWall(gameObject, hit.collider.gameObject))
                 {
-                    
+                    MoveByOppositeWall(hit.point.x);
                 }
                 else if (current < deep)
                 {
@@ -61,6 +66,30 @@ namespace TennisGame.AI.Simple
             {
                 StopMove();
             }
+        }
+
+        private void MoveByItSelf(float posX)
+        {
+            if (posX > adversary.SelfRigidbody.position.x + itselfStep)
+                MoveRight();
+            else if (posX < adversary.SelfRigidbody.position.x + itselfStep)
+                MoveLeft();
+        }
+
+        private void MoveBySelfWall(float posX)
+        {
+            if (posX > adversary.SelfRigidbody.position.x)
+                MoveRight();
+            else if (posX < adversary.SelfRigidbody.position.x)
+                MoveLeft();
+        }
+
+        private void MoveByOppositeWall(float posX)
+        {
+            if (posX > adversary.SelfRigidbody.position.x)
+                MoveRight();
+            else if (posX < adversary.SelfRigidbody.position.x)
+                MoveLeft();
         }
 
         private void MoveLeft()

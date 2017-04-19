@@ -6,6 +6,7 @@ namespace TennisGame.Game
     {
         RaycastHit2D[] Hits { get; }
         bool IsItSelf(GameObject obj, GameObject target);
+        bool IsSelfWall(GameObject obj, GameObject target);
         bool IsOppositeWall(GameObject obj, GameObject target);
     }
 }

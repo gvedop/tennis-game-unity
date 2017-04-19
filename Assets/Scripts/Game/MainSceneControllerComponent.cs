@@ -32,6 +32,22 @@ namespace TennisGame.Game
             return obj.GetTransformInstanceID() == target.GetTransformInstanceID();
         }
 
+        public bool IsSelfWall(GameObject obj, GameObject target)
+        {
+            if (obj.GetTransformInstanceID() == actors.TopPlatform.GetTransformInstanceID())
+            {
+                return target.GetTransformInstanceID() == actors.WallSet.TopWall.GetTransformInstanceID();
+            }
+            else if (obj.GetTransformInstanceID() == actors.BottomPlatform.GetTransformInstanceID())
+            {
+                return target.GetTransformInstanceID() == actors.WallSet.BottomWall.GetTransformInstanceID();
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         public bool IsOppositeWall(GameObject obj, GameObject target)
         {
             if (obj.GetTransformInstanceID() == actors.TopPlatform.GetTransformInstanceID())
