@@ -71,6 +71,7 @@ namespace TennisGame.Game
         private void Start()
         {
             InitComponents();
+            StartPlay();
         }
 
         private void OnDestroy()
@@ -118,6 +119,11 @@ namespace TennisGame.Game
             
             foreach (var actor in actors)
                 actor.RegisterGameController(this);
+        }
+
+        private void StartPlay()
+        {
+            actors.Ball.StartMotion(Vector2.down);
         }
     }
 }

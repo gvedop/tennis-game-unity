@@ -694,7 +694,7 @@ Prefab:
     - target: {fileID: 114338809974549022, guid: 3fb48a294a5c646488d40a62683b89d1,
         type: 2}
       propertyPath: timeCalcCollider
-      value: 0.5
+      value: 0.4
       objectReference: {fileID: 0}
     - target: {fileID: 50485742419675292, guid: 3fb48a294a5c646488d40a62683b89d1,
         type: 2}
@@ -865,7 +865,7 @@ MonoBehaviour:
   fieldCamera: {fileID: 228943613}
   wallWidth: 100
   platformSpeed: 500
-  ballSpeed: 300
+  ballSpeed: 500
 --- !u!4 &2049057293
 Transform:
   m_ObjectHideFlags: 0

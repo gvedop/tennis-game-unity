@@ -56,6 +56,11 @@ namespace TennisGame.Actors
             colliderLayerMask = LayerMask.GetMask("ColliderObject");
         }
 
+        public void StartMotion(Vector2 direction)
+        {
+            selfRigidbody.velocity = direction * speed;
+        }
+
         private void Update()
         {
             currentTimeCalcCollider += Time.deltaTime;
