@@ -8,5 +8,6 @@ namespace TennisGame.Game
         bool IsItSelf(GameObject obj, GameObject target);
         bool IsSelfWall(GameObject obj, GameObject target);
         bool IsOppositeWall(GameObject obj, GameObject target);
+        float GetOppositeAdversaryPositionX(GameObject obj);
     }
 }

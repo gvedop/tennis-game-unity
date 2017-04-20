@@ -12,6 +12,7 @@ namespace TennisGame.AI.Simple
         private AIQuality aiQuality = AIQuality.High;
         private ISimpleAIQuality simpleAIQuality;
         private float itselfStep = 0f;
+        private float currentGenerationItselfStepTime = 0f;
 
         private void Awake()
         {
@@ -43,10 +44,12 @@ namespace TennisGame.AI.Simple
             {
                 if (adversary.GameController.IsItSelf(gameObject, hit.collider.gameObject))
                 {
+                    GenerateItselfStep(hit.point.x);
                     MoveByItSelf(hit.point.x);
                 }
                 else if (adversary.GameController.IsSelfWall(gameObject, hit.collider.gameObject))
                 {
+                    GenerateItselfStep(hit.point.x);
                     MoveBySelfWall(hit.point.x);
                 }
                 else if (adversary.GameController.IsOppositeWall(gameObject, hit.collider.gameObject))
@@ -66,6 +69,55 @@ namespace TennisGame.AI.Simple
             {
                 StopMove();
             }
+        }
+
+        private void GenerateItselfStep(float posX)
+        {
+            currentGenerationItselfStepTime += Time.deltaTime;
+            if (currentGenerationItselfStepTime <= simpleAIQuality.GenerationItselfStepTime)
+                return;
+            currentGenerationItselfStepTime = 0f;
+            adversary.OffAdditionalForce();
+            var rand = Random.Range(-10, 10);
+            if (rand >= 2)
+            {
+                GenerateSelfStepByStrategy1(posX);
+            }
+            else if (rand >= -3 && rand < 2)
+            {
+                GenerateSelfStepByStrategy2(posX);
+            }
+            else
+            {
+                GenerateSelfStepByStrategy3(posX);
+            }
+        }
+
+        private void GenerateSelfStepByStrategy3(float posX)
+        {
+            if (simpleAIQuality.IsApproveOnAdditionalForce)
+                adversary.OnAdditionalForce();
+            var size = adversary.SelfCollider.size.x / 2f;
+            var mSize = size / 2f;
+            if (adversary.GameController.GetOppositeAdversaryPositionX(gameObject) > posX)
+                itselfStep = Random.Range(-size, -mSize);
+            else
+                itselfStep = Random.Range(mSize, size);
+        }
+
+        private void GenerateSelfStepByStrategy2(float posX)
+        {
+            if (simpleAIQuality.IsOnAdditionalForce)
+                adversary.OnAdditionalForce();
+            itselfStep = 0f;
+        }
+
+        private void GenerateSelfStepByStrategy1(float posX)
+        {
+            if (simpleAIQuality.IsOnAdditionalForce)
+                adversary.OnAdditionalForce();
+            var size = adversary.SelfCollider.size.x / 2f;
+            itselfStep = Random.Range(-size, size);
         }
 
         private void MoveByItSelf(float posX)

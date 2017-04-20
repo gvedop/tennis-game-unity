@@ -66,6 +66,18 @@ namespace TennisGame.Game
             }
         }
 
+        public float GetOppositeAdversaryPositionX(GameObject obj)
+        {
+            if (obj.GetTransformInstanceID() == actors.TopPlatform.GetTransformInstanceID())
+            {
+                return actors.BottomPlatform.SelfRigidbody.position.x;
+            }
+            else
+            {
+                return actors.TopPlatform.SelfRigidbody.position.x;
+            }
+        }
+
         private void Awake()
         {
         }

@@ -5,5 +5,8 @@ namespace TennisGame.AI.Simple
     {
         int Deep { get; }
         float MoveStep { get; }
+        float GenerationItselfStepTime { get; }
+        bool IsApproveOnAdditionalForce { get; }
+        bool IsOnAdditionalForce { get; }
     }
 }

@@ -6,6 +6,7 @@ namespace TennisGame.Actors
     public class AdversaryComponent: PlatformComponent, IAdversary
     {
         private float horizontal = 0f;
+        private float currentAdditionalForce = 0f;
 
         public IGameController GameController
         {
@@ -20,6 +21,21 @@ namespace TennisGame.Actors
         public override float GetHorizontalAxis()
         {
             return horizontal;
+        }
+
+        public override float GetCollisionAdditionalForce()
+        {
+            return currentAdditionalForce;
+        }
+
+        public void OnAdditionalForce()
+        {
+            currentAdditionalForce = additionalForce;
+        }
+
+        public void OffAdditionalForce()
+        {
+            currentAdditionalForce = 0f;
         }
     }
 }
