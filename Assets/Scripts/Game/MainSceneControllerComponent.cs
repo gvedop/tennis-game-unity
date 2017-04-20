@@ -1,11 +1,14 @@
 ﻿using UnityEngine;
 using TennisGame.Actors;
 using TennisGame.Core;
+using TennisGame.Menu;
 
 namespace TennisGame.Game
 {
     public class MainSceneControllerComponent : MonoBehaviour, IGameController
     {
+        [SerializeField]
+        private MenuComponent menu;
         [SerializeField]
         private ActorSet actors;
         [SerializeField]
@@ -76,6 +79,11 @@ namespace TennisGame.Game
             {
                 return actors.TopPlatform.SelfRigidbody.position.x;
             }
+        }
+
+        public void OnCollisionDetected(GameObject obj)
+        {
+
         }
 
         private void Awake()

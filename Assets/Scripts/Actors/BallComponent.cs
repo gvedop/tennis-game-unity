@@ -80,6 +80,7 @@ namespace TennisGame.Actors
                 selfRigidbody.velocity = direction * (speed + collisionProvider.GetCollisionAdditionalForce());
                 CalcColliders();
             }
+            gameController.OnCollisionDetected(collision.gameObject);
         }
 
         private void OnDrawGizmos()

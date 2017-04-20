@@ -52,10 +52,10 @@ namespace TennisGame.AI.Simple
                     GenerateItselfStep(hit.point.x);
                     MoveBySelfWall(hit.point.x);
                 }
-                else if (adversary.GameController.IsOppositeWall(gameObject, hit.collider.gameObject))
-                {
-                    MoveByOppositeWall(hit.point.x);
-                }
+                //else if (adversary.GameController.IsOppositeWall(gameObject, hit.collider.gameObject))
+                //{
+                //    MoveByOppositeWall(hit.point.x);
+                //}
                 else if (current < deep)
                 {
                     Think(deep, current + 1);
