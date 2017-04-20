@@ -26,6 +26,7 @@ namespace TennisGame.Game
         [SerializeField]
         private float ballSpeed = 300f;
         private Field field;
+        private Property property = new Property();
 
         public RaycastHit2D[] Hits
         {
@@ -83,7 +84,16 @@ namespace TennisGame.Game
 
         public void OnCollisionDetected(GameObject obj)
         {
-
+            if (obj.GetTransformInstanceID() == actors.WallSet.TopWall.GetTransformInstanceID())
+            {
+                property.IncBottomPlayerScore();
+                menu.SetBottomTitle(property.BottomPlayerScore.ToString());
+            }
+            else if (obj.GetTransformInstanceID() == actors.WallSet.BottomWall.GetTransformInstanceID())
+            {
+                property.IncTopPlayerScore();
+                menu.SetTopTitle(property.TopPlayerScore.ToString());
+            }
         }
 
         private void Awake()
@@ -151,6 +161,9 @@ namespace TennisGame.Game
 
         private void StartPlay()
         {
+            property.Clear();
+            menu.SetTopTitle(property.TopPlayerScore.ToString());
+            menu.SetBottomTitle(property.BottomPlayerScore.ToString());
             actors.Ball.StartMotion(Vector2.down + new Vector2(0.35f, 0f));
         }
     }

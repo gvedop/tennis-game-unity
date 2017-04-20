@@ -6,7 +6,7 @@ namespace TennisGame.Actors
     {
         public override float GetHorizontalAxis()
         {
-            return Input.GetAxis("Horizontal");
+            return Input.GetAxis("Horizontal") * 1.2f;
         }
 
         public override float GetCollisionAdditionalForce()
