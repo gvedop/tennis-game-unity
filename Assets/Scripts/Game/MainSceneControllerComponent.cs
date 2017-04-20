@@ -131,7 +131,7 @@ namespace TennisGame.Game
 
         private void StartPlay()
         {
-            actors.Ball.StartMotion(Vector2.down);
+            actors.Ball.StartMotion(Vector2.down + new Vector2(0.35f, 0f));
         }
     }
 }

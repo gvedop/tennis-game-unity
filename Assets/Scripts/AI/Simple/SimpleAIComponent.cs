@@ -70,25 +70,24 @@ namespace TennisGame.AI.Simple
 
         private void MoveByItSelf(float posX)
         {
-            if (posX > adversary.SelfRigidbody.position.x + itselfStep)
-                MoveRight();
-            else if (posX < adversary.SelfRigidbody.position.x + itselfStep)
-                MoveLeft();
+            MoveBy(posX, itselfStep);
         }
 
         private void MoveBySelfWall(float posX)
         {
-            if (posX > adversary.SelfRigidbody.position.x)
-                MoveRight();
-            else if (posX < adversary.SelfRigidbody.position.x)
-                MoveLeft();
+            MoveBy(posX, 0f);
         }
 
         private void MoveByOppositeWall(float posX)
         {
-            if (posX > adversary.SelfRigidbody.position.x)
+            MoveBy(posX, 0f);
+        }
+
+        private void MoveBy(float posX, float step)
+        {
+            if (posX > adversary.SelfRigidbody.position.x + step)
                 MoveRight();
-            else if (posX < adversary.SelfRigidbody.position.x)
+            else if (posX < adversary.SelfRigidbody.position.x + step)
                 MoveLeft();
         }
 

@@ -752,7 +752,7 @@ Prefab:
     - target: {fileID: 114052244127017074, guid: 6482014faa06f6e4e9e91b5aefcdc07f,
         type: 2}
       propertyPath: aiQuality
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 6482014faa06f6e4e9e91b5aefcdc07f, type: 2}
