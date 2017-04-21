@@ -1,4 +1,7 @@
 ﻿using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 using TennisGame.Actors;
 using TennisGame.Core;
 using TennisGame.Menu;
@@ -96,6 +99,15 @@ namespace TennisGame.Game
             }
         }
 
+        public void CloseGame()
+        {
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+#else
+            Application.Quit();
+#endif
+        }
+
         private void Awake()
         {
         }
@@ -104,6 +116,12 @@ namespace TennisGame.Game
         {
             InitComponents();
             StartPlay();
+        }
+
+        private void Update()
+        {
+            if (Input.GetKeyUp(KeyCode.Escape))
+                CloseGame();
         }
 
         private void OnDestroy()
@@ -154,7 +172,7 @@ namespace TennisGame.Game
             actors.WallSet.RightWall.SetSize(new Vector2(wallWidth, field.Height));
             actors.WallSet.RightWall.SetLocalPosition(field.RightCenter.WithAddX(middleWallWidth));
             actors.WallSet.RightWall.IgnoreCollisions(actors.TopPlatform.SelfCollider, actors.BottomPlatform.SelfCollider);
-            
+
             foreach (var actor in actors)
                 actor.RegisterGameController(this);
         }
